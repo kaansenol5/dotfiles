@@ -20,7 +20,7 @@ set $mod Mod1
  input * xkb_layout "tr"
 
 
- output "*" bg /home/kaan/Pictures/wallpaper fill
+ output "*" bg /home/kaan/Pictures/wallpaper center 
 
 # Hide borders
 hide_edge_borders none
@@ -40,7 +40,7 @@ font xft:URWGothic-Book 11
 floating_modifier $mod
 
 # start a $myTerm
-set $myTerm terminator
+set $myTerm kitty
 bindsym $mod+Return exec  $myTerm
 
 # kill focused window
@@ -65,8 +65,12 @@ bindsym XF86AudioMute exec --no-startup-id "pamixer -D pulse set Master toggle"
 ################################################################################################
 
 bindsym $mod+Shift+f exec firefox
-bindsym $mod+c exec --no-startup-id code
+bindsym $mod+c exec --no-startup-id atom
 focus_follows_mouse no
+bindsym $mod+Shift+s exec grim -o /home/kaan/Pictures/screenshot.png
+
+exec swayidle -w timeout 300 "swaylock-blur --blur-sigma 40"
+
 
 # change focus
 bindsym $mod+h focus left
@@ -291,8 +295,8 @@ mode "resize" {
 #############################
 
 # Set inner/outer gaps
-gaps inner 15
-gaps outer -8
+gaps inner 30
+gaps outer -15
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>
