@@ -10,8 +10,8 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
-set $mod Mod4
-
+	set $mod Mod1
+exec_always setxkbmap -layout tr
 # set default desktop layout (default is tiling)
 # workspace_layout tabbed <stacking|tabbed>
 
@@ -35,52 +35,18 @@ font xft:URWGothic-Book 11
 floating_modifier $mod
 
 # start a $myTerm
-set $myTerm konsole
+set $myTerm kitty
 bindsym $mod+Return exec  $myTerm
 
 # kill focused window
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id rofi -show run
 
-# Apps Launched with <SUPER>
-bindsym $mod+t exec $myTerm -e 'twitch-curses'
-
-# gnome-settigns
-bindsym $mod+g exec --no-startup-id gnome-settings-daemon
-
-# Apps Launched with <Ctrl> + <KEYPAD 1-9>
-bindsym control+1 exec $myTerm -e 'vifm'
-bindsym control+2 exec $myTerm -e 'curseradio'
-bindsym control+3 exec $myTerm -e 'cmus'
-bindsym control+5 exec $myTerm -e 'rtorrent'
-bindsym control+6 exec $myTerm -e 'youtube-viewer'
-bindsym control+7 exec $myTerm -e 'ncpamixer'
-bindsym control+8 exec $myTerm -e 'calcurse'
-bindsym control+9 exec $myTerm -e 'vim /home/miojo/.config/i3/config'
-
-################################################################################################
-## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
-################################################################################################
-
-exec --no-startup-id volumeicon
-#exec --no-startup-id pulseaudio
-#exec --no-startup-id pa-applet
-bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -D pulse sset Master '5%+'"
-bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -D pulse sset Master '5%-'"
-bindsym XF86AudioMute exec --no-startup-id "amixer -D pulse set Master toggle"
-################################################################################################
-
-# Start Applications
-bindsym Print exec --no-startup-id i3-scrot
-bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
-bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
-bindsym $mod+Ctrl+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
-bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
-bindsym shift+t exec --no-startup-id thunar
+bindsym $mod+Shift+d exec discord
 bindsym $mod+c exec --no-startup-id code
-# focus_follows_mouse no
+focus_follows_mouse no
 
 # change focus
 bindsym $mod+h focus left
@@ -130,9 +96,6 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-# toggle sticky
-# bindsym $mod+Shift+s sticky toggle
-bindsym $mod+Shift+s exec ~/.i3/i3-display-swap.sh
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -229,14 +192,13 @@ for_window [urgent=latest] focus
 # reload the configuration file
 bindsym $mod+Control+r reload
 
-#rofi theme selector
-bindsym control+mod1+r exec --no-startup-id rofi-theme-selector
+
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
 #open chrome
-bindsym control+g exec --no-startup-id chromium;focus
+bindsym $mod+Shift+f exec firefox
 		
 # exit i3 (logs you out of your X session)
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
@@ -295,29 +257,15 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym $mod+9 exec --no-startup-id blurlock
-
-#screenshot
-bindsym Control+Print exec --no-startup-id xfce4-screenshooter
-
-# next wallpaper
-bindsym mod1+Shift+n exec --no-startup-id variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)& 
-
+bindsym $mod+9 exec --no-startup-id i3lock-blur
 
 # Autostart applications
-exec_always --no-startup-id $HOME/polybar/launch.sh
+
 exec_always --no-startup-id compton --config ~/.config/compton.conf
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b --config /home/miojo/.config/compton.conf
-exec --no-startup-id numlockx off
-exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
 
 # exec --no-startup-id xautolock -time 10 -locker blurlock
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
-exec_always feh --bg-scale /home/kaan/wp/wp.jpg
-exec_always compton
+
+exec_always feh --bg-scale /home/kaan/Pictures/wallpaper
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
 # https://i3wm.org/docs/userguide.html#xresources
@@ -373,16 +321,11 @@ gaps outer -4
 # gaps outer all plus 5
 
 # Smart gaps (gaps used if only more than one container on the workspace)
-smart_gaps on
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace) 
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
-smart_borders on
 
-bar {
-        status_command i3status
-}
-
+exec_always sh /home/kaan/.config/polybar/launch.sh
 # Press $mod+Shift+g to enter the gap mode. 
 # Choose o or i for modifying outer/inner gaps.
 # Press one of + / - (in-/decrement for current workspace) 
